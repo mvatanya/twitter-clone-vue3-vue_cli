@@ -1,38 +1,42 @@
 <template>
   <!-- dynamic style class example -->
-    <form class="create-tweet-panel" @submit.prevent="createNewTweet" :class="{ '--exceeded': newTweetCharacterCount > 180 }">
-      <label for="newTweet">
-        <strong>New Tweet</strong>
-        ({{ newTweetCharacterCount }}/180)
-      </label>
-      <textarea id="newTweet" rows="4" v-model="state.newTweetContent"></textarea>
+  <form
+    class="create-tweet-panel"
+    @submit.prevent="createNewTweet"
+    :class="{ '--exceeded': newTweetCharacterCount > 180 }"
+  >
+    <label for="newTweet">
+      <strong>New Tweet</strong>
+      ({{ newTweetCharacterCount }}/180)
+    </label>
+    <textarea id="newTweet" rows="4" v-model="state.newTweetContent"></textarea>
 
-      <div class="create-tweet-panel__submit">
-        <div class="create-tweet-type">
-          <label for="newTweetType">
-            <strong>Type:</strong>
-          </label>
-          <select id="newTweetType" v-model="state.selectedTweetType">
-            <option
-              :value="option.value"
-              v-for="(option, index) in state.tweetTypes"
-              :key="index"
-            >
-              {{option.name}}
-            </option>
-          </select>
-        </div>
-        <button :disabled="newTweetCharacterCount > 180">Tweet!</button>
+    <div class="create-tweet-panel__submit">
+      <div class="create-tweet-type">
+        <label for="newTweetType">
+          <strong>Type:</strong>
+        </label>
+        <select id="newTweetType" v-model="state.selectedTweetType">
+          <option
+            :value="option.value"
+            v-for="(option, index) in state.tweetTypes"
+            :key="index"
+          >
+            {{ option.name }}
+          </option>
+        </select>
       </div>
-    </form>
+      <button :disabled="newTweetCharacterCount > 180">Tweet!</button>
+    </div>
+  </form>
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
+import { reactive, computed } from "vue";
 
 export default {
   name: "CreateTweetPanel",
-  setup(props, context){
+  setup(props, context) {
     const state = reactive({
       newTweetContent: "",
       selectedTweetType: "instant",
@@ -40,14 +44,14 @@ export default {
         { value: "draft", name: "Draft" },
         { value: "instant", name: "Instant Tweet" },
       ],
-    })
+    });
 
     const newTweetCharacterCount = computed(() => state.newTweetContent.length);
 
     function createNewTweet() {
       if (state.newTweetContent && state.selectedTweetType !== "draft") {
         //this $emit in composition-api need to use context now that comes from the second argument in setup function
-        context.emit('add-tweet', state.newTweetContent)
+        context.emit("add-tweet", state.newTweetContent);
         state.newTweetContent = "";
       }
     }
@@ -55,9 +59,8 @@ export default {
     return {
       state,
       newTweetCharacterCount,
-      createNewTweet
-    }
-  
+      createNewTweet,
+    };
   },
 };
 </script>
@@ -69,7 +72,7 @@ export default {
   display: flex;
   flex-direction: column;
   textarea {
-    border: 1px solid #DFE3E8;
+    border: 1px solid #dfe3e8;
     border-radius: 5px;
   }
   .create-tweet-panel__submit {
@@ -93,7 +96,7 @@ export default {
     border-color: red;
     .create-tweet-panel__submit {
       button {
-        background-color: #DFE3E8;
+        background-color: #dfe3e8;
         color: white;
       }
     }
